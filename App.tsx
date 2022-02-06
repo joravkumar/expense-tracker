@@ -1,20 +1,35 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import {
+  StyleSheet,
+  SafeAreaView,
+  Platform,
+  StatusBar,
+  ActivityIndicator,
+} from "react-native";
+import Login from "./screens/Login";
+// import AppLoading from 'expo-app-loading';
+import { useFonts, Inter_900Black, Inter_400Regular } from "@expo-google-fonts/inter";
 
 export default function App() {
+  let [fontsLoaded] = useFonts({
+    Inter_900Black,
+    Inter_400Regular
+  });
+
+  if (!fontsLoaded) {
+    return <ActivityIndicator size="large" color="#00ff00" />;
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaView style={styles.container}>
+      <Login />
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "white",
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
 });
