@@ -1,3 +1,4 @@
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useState } from "react";
 import {
   StyleSheet,
@@ -8,12 +9,19 @@ import {
   View,
   TouchableOpacity,
 } from "react-native";
+import { RootStackParamList } from "../App.interface";
 
-export default function Login() {
+type Props = NativeStackScreenProps<RootStackParamList, "Login">;
+
+export default function Login({ navigation }: Props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const login = () => {};
+  const login = () => {
+    navigation.replace("AddExpense", {
+      userId: "1",
+    });
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.headerText}> Login Screen </Text>
@@ -24,18 +32,17 @@ export default function Login() {
         value={username}
         onChangeText={setUsername}
         focusable
+        autoCompleteType="off"
       />
       <TextInput
         style={styles.text}
         secureTextEntry
         placeholder="Enter Password"
-        onSubmitEditing={() => alert("Tada...")}
-        onChangeText={setUsername}
+        onSubmitEditing={login}
+        onChangeText={setPassword}
+        value={password}
       />
-      <TouchableOpacity
-        style={styles.loginbtn}
-        onPress={() => alert("Tada...")}
-      >
+      <TouchableOpacity style={styles.loginbtn} onPress={login}>
         <Text style={styles.loginbtnText}>LOGIN</Text>
       </TouchableOpacity>
     </View>
@@ -46,6 +53,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
+    paddingHorizontal: 10,
   },
   headerText: {
     textAlign: "center",
@@ -60,13 +68,14 @@ const styles = StyleSheet.create({
   },
   loginbtn: {
     backgroundColor: "#022B3A",
-    padding: 5,
-    borderRadius: 6
+    padding: 6,
+    borderRadius: 10,
+    marginTop: 10,
   },
-
   loginbtnText: {
     fontFamily: "Inter_400Regular",
     fontSize: 25,
-    color: '#fff'
+    color: "#fff",
+    textAlign: "center",
   },
 });
